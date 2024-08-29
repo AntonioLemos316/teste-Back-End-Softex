@@ -1,10 +1,9 @@
 import express from 'express';
 import { Organizacaoservice } from '../service/Organizacaoservice.js';
+import response from '../service/response.js';
 
 const router = express.Router();
-import response from '../service/response.js';
 const organizacaoService = new Organizacaoservice();
-
 
 //Create
 router.post('/cadastro',async(req,res)=>{
@@ -13,7 +12,6 @@ router.post('/cadastro',async(req,res)=>{
     const responsavel = post__data.responsavel;
     const nome_organizacao = post__data.nome_organizacao;
     const localizacao_organizacao = post__data.localizacao_organizacao;
-
 
     //Verificação se o corpo da requisição está vazio.
     if(Object.keys(post__data).length===0){
@@ -28,10 +26,9 @@ router.post('/cadastro',async(req,res)=>{
     };
 
     //Caso passar pelas duas verificações os dados serão inseridos através do organização service.
-
     try{
-        const  results  = await organizacaoService.createOrganizacao(cnpj,responsavel,nome_organizacao,localizacao_organizacao);
-        res.status(200).json(response('200','Dados inseridos com sucesso!',null));
+        const results = await organizacaoService.createOrganizacao(cnpj,responsavel,nome_organizacao,localizacao_organizacao);
+        res.status(200).json(response('200','Dados inseridos com sucesso!', results));
     }catch(error){
         
         res.status(500).json(response('500','Erro inesperado',null));
